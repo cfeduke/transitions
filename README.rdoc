@@ -16,6 +16,7 @@ transitions is currently being maintained by {Jakub Kuźma}[http://github.com/qo
    state_machine do
      state :available # first one is initial state
      state :out_of_stock, :exit => :exit_out_of_stock
+		 state :on_order, :enter => [:notify_customers, :process_pending_orders]
      state :discontinued, :enter => lambda { |product| product.cancel_orders }
    
      event :discontinued do
@@ -28,6 +29,11 @@ transitions is currently being maintained by {Jakub Kuźma}[http://github.com/qo
        transitions :to => :available, :from => [:out_of_stock], :guard => lambda { |product| product.in_stock > 0 }
      end
    end
+
+   private
+   def exit_out_of_stock; end
+	 def notify_customers; end
+	 def process_pending_orders; end
  end
 
 == Using with Rails
