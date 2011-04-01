@@ -26,7 +26,7 @@ transitions is currently being maintained by {Jakub Kuźma}[http://github.com/qo
        transitions :to => :out_of_stock, :from => [:available, :discontinued]
      end
      event :available do
-       transitions :to => :available, :from => [:out_of_stock], :guard => lambda { |product| product.in_stock > 0 }
+       transitions :to => :available, :from => [:out_of_stock, :on_order], :guard => lambda { |product| product.in_stock > 0 }
      end
    end
 
