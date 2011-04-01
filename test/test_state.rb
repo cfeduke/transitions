@@ -69,4 +69,23 @@ class TestState < Test::Unit::TestCase
 
     state.call_action(:entering, record)
   end
+  
+  test "when an array, should send each item in the array" do
+    state = new_state(:entering => [:first, :second])
+    
+    record = stub
+    record.expects(:first)
+    record.expects(:second)
+    
+    state.call_action(:entering, record)
+  end
+  
+  test "when an array, should ignore non-symbols and non-strings" do
+    state = new_state(:entering => [42, :foo])
+    
+    record = stub
+    record.expects(:foo)
+    
+    state.call_action(:entering, record)
+  end
 end

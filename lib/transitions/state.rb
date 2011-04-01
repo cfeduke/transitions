@@ -45,6 +45,8 @@ module Transitions
       case action
       when Symbol, String
         record.send(action)
+      when Array
+        action.each {|a| record.send(a) if [Symbol, String].include? a.class }
       when Proc
         action.call(record)
       end
